@@ -31,7 +31,7 @@ def custom_loss(predicted_color, simulated_color, actual_color):
     return loss
 
 
-# Load your dataset
+# Load the input dataset
 file_path = 'Input dataset.csv'
 df = pd.read_csv(file_path)
 
@@ -45,12 +45,12 @@ train_X, val_X, train_y, val_y = train_test_split(X, y, test_size=0.2, random_st
 # Optical properties for Kubelka-Munk simulation (replace with actual data)
 pigment_properties = np.random.uniform(0.1, 0.9, size=train_X.shape[1])  # Example: Random values between 0.1 and 0.9
 
-# Standardize the data (optional but often recommended)
+# Standardize the data 
 scaler = StandardScaler()
 train_X_scaled = scaler.fit_transform(train_X)
 val_X_scaled = scaler.transform(val_X)
 
-# Initialize the Multi-Output Regression Model (Random Forest Regressor is used here)
+# Initialize the Multi-Output Regression Model (Random Forest Regressor)
 model = MultiOutputRegressor(RandomForestRegressor(n_estimators=100, random_state=42))
 
 # Training loop
@@ -65,13 +65,13 @@ for epoch in range(num_epochs):
     # Calculate the loss
     loss = custom_loss(predicted_color, simulated_color, val_y)
 
-    # Backward pass and optimization (Note: PyTorch is not used here as it was in the previous example)
+    # Backward pass and optimization 
     model.fit(train_X_scaled, train_y)  # Update the model using the training data
 
     # Print loss for monitoring training progress
     print(f'Epoch {epoch + 1}/{num_epochs}, Loss: {loss.item()}')
 
-# After training, you can use the trained model to predict RGB values for new formulations
+# After training, use the trained model to predict RGB values for new formulations
 
 # Testing if the model predicts the RGB values correctly:
 # 1. Standardize the Input (if used during training)
